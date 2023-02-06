@@ -16,25 +16,20 @@
 <body>
     <main>
         <section class="city-search-box">
-            <form >
+            <form id="search">
                 <h2 class="search-title">Search For a City:</h2>
-                <input placeholder="Search City..." class="search-form">
-                <button form="submit" class="search-button">Search</button>
+                <input type="text" placeholder="Search City..." class="search-form">
             </form>
         </section>
 
         <section class="city-details">
-            <h1>City <span>Date</span></h1>
+            <h1 id="city-name">City <span id="city-date">Date</span></h1>
             <ul>
-                <li>Temp: <spand></spand></li>
-                <li>Wind: <span></span></li>
-                <li>Humidity: <span></span></li>
+                <li>Temp: <spand id="temp"></spand></li>
+                <li>Wind: <span id="wind"></span></li>
+                <li>Humidity: <span id="humidity"></span></li>
             </ul>
         </section>
-
-
-
-
 
     </main>
     <script src="./assets/js/script.js"></script>
