@@ -13,4 +13,63 @@ header h1 {
     position: relative;
     left: 20px;
     top: 10px;
+    text-align: justify;
+}
+
+main {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+
+}
+
+/* City Search Box */
+
+.city-search-box {
+    width:  400px;
+    border-bottom: solid black 3px;
+    position: relative;
+    left: 10px;
+}
+
+.search-title {
+    margin-top: 15px;
+    font-size: 40px;
+    position: relative;
+    left: 5px;
+}
+
+.search-form {
+    padding: 10px 75px 10px 10px;
+    margin-top: 30px;
+    font-size: 20px;
+    position: relative;
+    left: 5px;
+}
+
+.search-button {
+    padding: 10px 165px 10px 165px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 20px;
+    text-align: center;
+    position: relative;
+    left: 5px;
+}
+
+/* City Weather details */
+
+.city-details {
+    position: relative;
+    top: 15px;
+    left: 100px;
+    width: 600px;
+    font-size: 40px;
+    border-bottom: black solid 3px;
+}
+
+.city-details ul li {
+    font-size: 25px;
+    padding: 30px 0px 20px 15px;
 }
