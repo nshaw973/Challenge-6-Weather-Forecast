@@ -14,6 +14,7 @@ function searchSubmit(event) {
 
     if (!searchValue) {
     console.error('Error empty input value')
+    window.alert('please input a city')
     return;
     }
 
@@ -31,21 +32,30 @@ function getCity(requestUrl) {
      
         return response.json();
 
-    }).then(function (obj) {
-/*         console.log(obj[1].lat);
-        console.log(obj[1].lon); */
-        var cityLat = obj[1].lat
-        var cityLon = obj[1].lon
-        var cityName = obj[1].name
+    }).then(function (data) {
 
-        cityWeather(cityLat, cityLon, cityName)
+        console.log(data)
+
+        cityData = {
+          city: data[0].name,
+          lon: data[0].lon,
+          lat: data[0].lat,
+          state: data[0].state,
+        }
+
+        cityWeather(cityData)
 
     });
   }
 
-  function cityWeather (cityLat, cityLon, cityName) {
-    console.log('current city = ' + cityName)
-    console.log("lat = " + cityLat + "lon = " + cityLon)
+  function cityWeather (cityData) {
+
+    var currentCity = document.querySelector('#city-name');
+
+    currentCity.textContent = cityData.city
+    
+    console.log('current city = ' + cityData.city)
+    console.log("lat = " + cityData.lat + "lon = " + cityData.lon)
 
   }
 
