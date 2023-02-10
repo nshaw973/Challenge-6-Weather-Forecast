@@ -12,7 +12,7 @@ var temp = document.querySelector('#temp');
 var wind = document.querySelector('#wind');
 var humidity = document.querySelector('#humidity');
 
-var forecastContainer = document.querySelector('.forecast-container');
+var forecastCards = document.querySelector('.forecast-cards');
 
 //City Searcher ------------------------------------------------------------------//
 
@@ -26,12 +26,16 @@ clearButton.addEventListener('click', function clearHistory() {
 
   historyButton.innerHTML = "";
   cityHistory = []; 
+  forecastCards.innerHTML = ""
+
 
 });
 
 //Search for city depending on form value and searches for its Lon and Lat//
 function searchSubmit(event) {
     event.preventDefault();
+
+    forecastCards.innerHTML = ""
 
     var searchValue = document.querySelector('.search-form').value;
     var searchedCity = ""
@@ -184,34 +188,52 @@ function getCity(requestUrl) {
 
       //Forecasted Weather
 
+      //Specific indexes per day//
+      var index = [5, 13, 21, 29, 37];
+
+      for (var i = 0; i < index.length; i++) {
+
       var forecastDetails = {
 
-        date: data.list[5].dt,
-        temp: data.list[5].main.temp,
-        wind: data.list[5].wind.speed,
-        humidity: data.list[5].main.humidity,
-        icon: data.list[5].weather[0].icon
+        date: data.list[index[i]].dt,
+        temp: data.list[index[i]].main.temp,
+        wind: data.list[index[i]].wind.speed,
+        humidity: data.list[index[i]].main.humidity,
+        icon: data.list[index[i]].weather[0].icon
 
       }
 
+      var icon = 'http://openweathermap.org/img/wn/' + forecastDetails.icon + '@2x.png'
       var forecastDate = new Date(forecastDetails.date * 1000).toLocaleDateString();
 
       console.log(forecastDate);
       console.log(forecastDetails);
 
       var divEl = document.createElement('div');
-      var h1El = document.createElement('h1');
+
+      var imgEl = document.createElement('img')
       var h3El = document.createElement('h3')
       var ulEl = document.createElement('ul');
-      var liEl = document.createElement('li');
+      var temp = document.createElement('li');
+      var wind = document.createElement('li');
+      var humidity = document.createElement('li');
 
-      forecastContainer.appendChild(divEl);
-      divEl.appendChild(h1El);
+      forecastCards.appendChild(divEl);
       divEl.appendChild(h3El);
+      divEl.appendChild(imgEl);
       divEl.appendChild(ulEl);
-      ulEl.appendChild(liEl);
+      ulEl.appendChild(temp);
+      ulEl.appendChild(wind);
+      ulEl.appendChild(humidity);
 
-      h1El.textContent = cityData.name;
+      h3El.textContent = forecastDate;
+      imgEl.setAttribute('src', icon);
+      imgEl.setAttribute('class', "forecast-icon");
+      wind.textContent = "Wind: " + forecastDetails.wind + " mph";
+      temp.textContent = "Temp: " + forecastDetails.temp + "F°"
+      humidity.textContent = "Humidity: " + forecastDetails.humidity + "%";
 
+    }
   })
+  
 }

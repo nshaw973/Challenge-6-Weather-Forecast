@@ -1,4 +1,10 @@
+body {
+    
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
 header {
+
     width: 100%;
     height: 75px;
     background: rgb(2,0,36);
@@ -7,7 +13,7 @@ header {
 }
 
 header h1 {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
     color: aliceblue;
     font-size: 50px;
     position: relative;
@@ -17,7 +23,7 @@ header h1 {
 }
 
 main {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
     display: flex;
     align-items: flex-start;
     width: 100%;
@@ -131,4 +137,65 @@ main {
     height: 60px;
     position: relative;
     top: 5px;
+}
+
+/* 5 Day Forecast Container */
+
+.forecast-container {
+
+    position: absolute;
+    top: 475px;
+    left: 500px;
+    width: 1200px;
+    font-size: 40px;
+    
+
+}
+
+.forecast-cards{
+    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.forecast-container h3 {
+
+    font-size: 25px;
+    font-weight: 800;
+    position: relative;
+    left: 10px;
+    top: 15px;
+}
+
+.forecast-cards div {
+
+    border-radius: 20px;
+    margin: 20px;
+    height: 250px;
+    width: 200px;
+    background: linear-gradient(217deg, rgba(132, 237, 245, 0.8), rgba(255,0,0,0) 70.71%),
+            linear-gradient(127deg, rgba(75, 87, 255, 0.8), rgba(0,255,0,0) 70.71%),
+            linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+    box-shadow: black 5px 5px 5px;
+}
+
+.forecast-cards ul li {
+
+    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: 800;
+    position: relative;
+    left: 10px;
+}
+
+.forecast-icon {
+
+    background-color: beige;
+    height: 50px;
+    width: 50px;
+    position: relative;
+    left: 145px;
+    bottom: 15px;
 }
