@@ -44,17 +44,35 @@ main {
 .search-form {
     padding: 10px 75px 10px 10px;
     margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     font-size: 20px;
     position: relative;
     left: 5px;
-
 }
 
 .search-button {
-    padding: 10px 165px 10px 165px;
-    margin-top: 50px;
+    padding: 10px 165px 10px 160px;
     margin-bottom: 50px;
+    font-size: 20px;
+    text-align: center;
+    position: relative;
+    left: 5px;
+    font-weight: 800;
+}
+
+/* City History */
+
+.city-history {
+    position: relative;
+    right: 380px;
+    top: 300px
+}
+
+.history-button {
+    width: 375px;
+    height: 50px;
+    text-align: center;
+    margin-bottom: 20px;
     font-size: 20px;
     text-align: center;
     position: relative;
@@ -66,10 +84,23 @@ main {
 .city-details {
     position: relative;
     top: 15px;
-    left: 100px;
+    right: 270px;
     width: 1300px;
     font-size: 40px;
     border-bottom: black solid 3px;
+}
+
+.city-details h1 {
+    font-size: 40px;
+    width: 700px;
+    text-decoration: underline;
+    padding: 10px 10px 10px 0px;
+}
+
+.city-details h3 {
+    font-size: 25px;
+    width: 500px;
+    padding: 10px 10px 0px 0px;
 }
 
 .city-details ul li {
