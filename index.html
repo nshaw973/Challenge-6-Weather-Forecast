@@ -15,20 +15,24 @@
 
 <body>
     <main>
+
+        <!-- Search Form with Clear Button -->
         <section class="city-search-box">
             <form id="search">
                 <h2 class="search-title">Search For a City:</h2>
                 <input type="text" placeholder="Search City..." class="search-form">
             </form>
             <button class="search-button">Search</button>
+            <button class="clear">Clear</button>
         </section>
 
+        <!-- Populates with previously searched cities -->
         <section class="city-history">
             <ul class="history-buttons">
-
             </ul>
         </section>
 
+        <!-- Current Day Details -->
         <section class="city-details">
             <h1><span id="city-name">City</span>, <span id="city-state">State</span> <img id="icon" alt="."></h1>
             <h3 id="city-date"></h3>
@@ -37,6 +41,12 @@
                 <li>Wind: <span id="wind">0</span> mph</li>
                 <li>Humidity: <span id="humidity">0</span>%</li>
             </ul>
+        </section>
+
+        <!-- 5 day forecast -->
+        <section class="forecast-container">
+            
+
         </section>
 
     </main>
