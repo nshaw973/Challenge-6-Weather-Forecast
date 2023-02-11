@@ -56,7 +56,7 @@ function searchSubmit(event) {
     }
 
     searchedCity = searchValue
-    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + searchedCity + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
+    var requestUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + searchedCity + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
 
     searchValue = ""
 
@@ -84,7 +84,6 @@ function getCity(requestUrl, requestCity, storedCity) {
 
       }
 
-        
         console.log(data);
 
         //This will be used to get the coordinates needed for the weatherapi fetch
@@ -143,7 +142,7 @@ function getCity(requestUrl, requestCity, storedCity) {
 
         console.log(citySavedName)
  
-        var requestCity = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySavedName + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
+        var requestCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + citySavedName + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
         console.log(requestCity)
 
         forecastCards.innerHTML = ""
@@ -178,7 +177,7 @@ function getCity(requestUrl, requestCity, storedCity) {
         date: data.dt
       }
     
-    var icon = 'http://openweathermap.org/img/wn/' + currrentCityWeatherDetails.icon + '@2x.png'
+    var icon = 'https://openweathermap.org/img/wn/' + currrentCityWeatherDetails.icon + '@2x.png'
 
       //got this from stackoverflow, basically what it does is turns the unix time that came from the response, and gets converted to exact date and time
       //the * 1000 is based on the way javascript treats a second to = 1000, without it, it will default to 1970 epoch.
@@ -234,7 +233,7 @@ function getCity(requestUrl, requestCity, storedCity) {
       }
 
       //This fetches the icon from the openweather api, and creates the 5 day forecast with details.//
-      var icon = 'http://openweathermap.org/img/wn/' + forecastDetails.icon + '@2x.png'
+      var icon = 'https://openweathermap.org/img/wn/' + forecastDetails.icon + '@2x.png'
       var forecastDate = new Date(forecastDetails.date * 1000).toLocaleDateString();
 
       var divEl = document.createElement('div');
@@ -258,7 +257,7 @@ function getCity(requestUrl, requestCity, storedCity) {
       imgEl.setAttribute('src', icon);
       imgEl.setAttribute('class', "forecast-icon");
       wind.textContent = "Wind: " + forecastDetails.wind + " mph";
-      temp.textContent = "Temp: " + forecastDetails.temp + "F°"
+      temp.textContent = "Temp: " + forecastDetails.temp + " °F"
       humidity.textContent = "Humidity: " + forecastDetails.humidity + "%";
 
     }}
@@ -284,7 +283,7 @@ function init() {
 
    var storedCityName = storedCities[i].city
 
-   var storedCity = 'http://api.openweathermap.org/geo/1.0/direct?q=' + storedCityName + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
+   var storedCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + storedCityName + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
    
    console.log(storedCityName)
 
