@@ -1,6 +1,7 @@
 body {
     
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    overflow-x: hidden;
 }
 
 header {
@@ -150,14 +151,14 @@ main {
     left: 500px;
     width: 1200px;
     font-size: 40px;
-    
+    max-height: 350px;
+    overflow-y: hidden;
 
 }
 
 .forecast-cards{
     
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
 
 }

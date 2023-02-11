@@ -6,6 +6,7 @@ var historyButton = document.querySelector('.history-buttons');
 
 var currentCity = document.querySelector('#city-name');
 var cityState = document.querySelector('#city-state');
+var cityCountry = document.querySelector('#city-country');
 var currentDate = document.querySelector('#city-date');
 var weatherIcon = document.querySelector('#icon');
 var temp = document.querySelector('#temp');
@@ -28,6 +29,7 @@ clearButton.addEventListener('click', function clearHistory() {
   historyButton.innerHTML = "";
   cityHistory = []; 
   forecastCards.innerHTML = ""
+  storeCity();
 
 });
 
@@ -63,8 +65,8 @@ function searchSubmit(event) {
 }
 
 //This is taking the Geo APIs and searching for the lat and lon of the city searched for//
-function getCity(requestUrl, requestCity) {
-    fetch(requestUrl || requestCity)
+function getCity(requestUrl, requestCity, storedCity) {
+    fetch(requestUrl || requestCity || storedCity)
       .then(function (response) {
      
         return response.json();
@@ -83,6 +85,7 @@ function getCity(requestUrl, requestCity) {
 
       }
 
+        
         console.log(data);
 
         //This will be used to get the coordinates needed for the weatherapi fetch
@@ -91,10 +94,12 @@ function getCity(requestUrl, requestCity) {
           lon: data[0].lon,
           lat: data[0].lat,
           state: data[0].state,
+          country: data[0].country
         }
 
         cityHistory.push(cityData)
-      
+        
+        storeCity();
         searchHistory();
         cityWeather(cityData);
         foreCast(cityData);
@@ -102,10 +107,10 @@ function getCity(requestUrl, requestCity) {
     });
   }
 
-
   //Adds the Buttons for previously searched Cities, and allows for those cities to be clicked and it would repopulate the current day and forecasted details
   function searchHistory () {
 
+    
     historyButton.innerHTML = ""
 
     for (var i = 0; i < cityHistory.length; i++) {
@@ -143,7 +148,9 @@ function getCity(requestUrl, requestCity) {
         console.log(requestCity)
 
         forecastCards.innerHTML = ""
-        getCity(requestCity)
+
+
+        getCity(requestCity);
 
       })
     }
@@ -180,8 +187,9 @@ function getCity(requestUrl, requestCity) {
       
       var convertedDate = new Date(currrentCityWeatherDetails.date * 1000).toLocaleDateString();
 
-      currentCity.textContent = cityData.city;
+      currentCity.textContent = cityData.city + ", ";
       cityState.textContent = cityData.state;
+      cityCountry.textContent = " " + cityData.country;
       currentDate.textContent = convertedDate;
       weatherIcon.setAttribute('src', icon);
 
@@ -195,6 +203,7 @@ function getCity(requestUrl, requestCity) {
 
   function foreCast (cityData) {
 
+    forecastCards.innerHTML = ""
     var cityWeatherData = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + cityData.lat + '&lon=' + cityData.lon + '&units=imperial&appid=09f8e0e7cdfcce674876b189b8f41b9c'
 
     fetch(cityWeatherData)
@@ -211,7 +220,7 @@ function getCity(requestUrl, requestCity) {
 
       for (var i = 0; i < index.length; i++) {
 
-        if (index === 5) {
+        if (index.length > 5) {
           return
         } else {
 
@@ -225,6 +234,7 @@ function getCity(requestUrl, requestCity) {
 
       }
 
+      //This fetches the icon from the openweather api, and creates the 5 day forecast with details.//
       var icon = 'http://openweathermap.org/img/wn/' + forecastDetails.icon + '@2x.png'
       var forecastDate = new Date(forecastDetails.date * 1000).toLocaleDateString();
 
@@ -256,3 +266,31 @@ function getCity(requestUrl, requestCity) {
   })
   
 }
+
+function storeCity() {
+
+  localStorage.setItem("city-history", JSON.stringify(cityHistory))
+}
+
+function init() {
+  var storedCities = JSON.parse(localStorage.getItem("city-history"));
+  if (!storedCities){
+    return;
+  }
+
+
+  console.log(storedCities)
+
+  for (var i = 0; i < storedCities.length; i++){
+
+   var storedCityName = storedCities[i].city
+
+   var storedCity = 'http://api.openweathermap.org/geo/1.0/direct?q=' + storedCityName + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
+   
+   console.log(storedCityName)
+
+    getCity(storedCity)
+
+  } 
+}
+init();
