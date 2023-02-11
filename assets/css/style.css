@@ -137,6 +137,7 @@ main {
 
 #icon {
     width: 60px;
+    left: 10px;
     height: 60px;
     position: relative;
     top: 5px;
@@ -200,4 +201,5 @@ main {
     position: relative;
     left: 145px;
     bottom: 15px;
+    mix-blend-mode: multiply;
 }
