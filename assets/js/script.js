@@ -28,7 +28,6 @@ clearButton.addEventListener('click', function clearHistory() {
 
   historyButton.innerHTML = "";
   cityHistory = []; 
-  forecastCards.innerHTML = ""
   storeCity();
 
 });
