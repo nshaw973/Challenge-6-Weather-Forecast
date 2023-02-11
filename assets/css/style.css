@@ -82,12 +82,14 @@ main {
 
 .city-history {
     position: absolute;
+    flex-direction: column-reverse;
     left: 10px;
     top: 425px;
     width: 405px;
     max-height: 400px;
     overflow-y: scroll;
     scroll-behavior: smooth;
+    
 }
 
 .history-button {
@@ -183,9 +185,8 @@ main {
 
 .forecast-cards ul li {
 
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-size: 25px;
-    font-weight: 800;
     position: relative;
     left: 10px;
 }

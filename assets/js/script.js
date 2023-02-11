@@ -17,6 +17,7 @@ var forecastCards = document.querySelector('.forecast-cards');
 //City Searcher ------------------------------------------------------------------//
 
 var cityHistory = [];
+console.log(cityHistory)
 
 searchButton.addEventListener('click', searchSubmit);
 searchBarEl.addEventListener('submit', searchSubmit);
@@ -28,12 +29,12 @@ clearButton.addEventListener('click', function clearHistory() {
   cityHistory = []; 
   forecastCards.innerHTML = ""
 
-
 });
 
 //Search for city depending on form value and searches for its Lon and Lat//
 function searchSubmit(event) {
     event.preventDefault();
+    event.stopPropagation();
 
     forecastCards.innerHTML = ""
 
@@ -54,16 +55,17 @@ function searchSubmit(event) {
     }
 
     searchedCity = searchValue
-    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + searchedCity + '&limit=5&appid=6dccc6347181beac7daedbd684110b84';
+    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + searchedCity + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
 
-    console.log("search Value " + searchValue)
+    searchValue = ""
+
     getCity(requestUrl);
 }
 
-function getCity(requestUrl) {
-    fetch(requestUrl)
+//This is taking the Geo APIs and searching for the lat and lon of the city searched for//
+function getCity(requestUrl, requestCity) {
+    fetch(requestUrl || requestCity)
       .then(function (response) {
-        console.log(response);
      
         return response.json();
 
@@ -91,22 +93,24 @@ function getCity(requestUrl) {
           state: data[0].state,
         }
 
-        cityHistory.push(cityData.city)
-        
-        searchHistory(cityData);
+        cityHistory.push(cityData)
+      
+        searchHistory();
         cityWeather(cityData);
         foreCast(cityData);
 
     });
   }
 
-  function searchHistory (cityData) {
+
+  //Adds the Buttons for previously searched Cities, and allows for those cities to be clicked and it would repopulate the current day and forecasted details
+  function searchHistory () {
 
     historyButton.innerHTML = ""
 
     for (var i = 0; i < cityHistory.length; i++) {
 
-      var cityName = cityHistory[i]
+      var cityName = cityHistory[i].city;
 
       var liEl = document.createElement('li');
       var buttonEl = document.createElement('button');
@@ -116,24 +120,44 @@ function getCity(requestUrl) {
 
       buttonEl.textContent = cityName
       buttonEl.setAttribute('class', 'history-button')
-      buttonEl.setAttribute('city', [i])
+      buttonEl.setAttribute('city', cityName)
+      buttonEl.setAttribute('city-index', [i])
+      buttonEl.setAttribute('lat', cityHistory[i].lat)
+      buttonEl.setAttribute('lon', cityHistory[i].lon) 
 
+      console.log(buttonEl.value)
+      
+      buttonEl.addEventListener('click', function recallCity (event) {
+        event.preventDefault()
+        event.stopPropagation();
+
+        var citySavedName = this.getAttribute('city')
+        var cityIndex = this.getAttribute('city-index')
+
+        //prevents from creating more buttons when clicking previously searched cities
+        cityHistory.splice(cityIndex, 1)
+
+        console.log(citySavedName)
+ 
+        var requestCity = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySavedName + '&limit=5&appid=09f8e0e7cdfcce674876b189b8f41b9c';
+        console.log(requestCity)
+
+        forecastCards.innerHTML = ""
+        getCity(requestCity)
+
+      })
     }
+     
   }
 
   //takes the lon and lat from geo api and adds them to the openweathermap api link//
   function cityWeather (cityData) {
- 
-    console.log('current city = ' + cityData.city);
-    console.log("lat = " + cityData.lat + "lon = " + cityData.lon);
 
     //added impaerial units to the link//
-    var cityWeatherData = 'https://api.openweathermap.org/data/2.5/weather?lat=' + cityData.lat + '&lon=' + cityData.lon + '&units=imperial&appid=6dccc6347181beac7daedbd684110b84'
-/*     var cityWeatherData = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + cityData.lat + '&lon=' + cityData.lon + '&units=imperial&appid=6dccc6347181beac7daedbd684110b84' */
+    var cityWeatherData = 'https://api.openweathermap.org/data/2.5/weather?lat=' + cityData.lat + '&lon=' + cityData.lon + '&units=imperial&appid=09f8e0e7cdfcce674876b189b8f41b9c'
 
     fetch(cityWeatherData)
       .then(function (response) {
-        console.log(response);
 
         return response.json();
 
@@ -149,8 +173,6 @@ function getCity(requestUrl) {
       }
     
     var icon = 'http://openweathermap.org/img/wn/' + currrentCityWeatherDetails.icon + '@2x.png'
-
-      console.log(icon)
 
       //got this from stackoverflow, basically what it does is turns the unix time that came from the response, and gets converted to exact date and time
       //the * 1000 is based on the way javascript treats a second to = 1000, without it, it will default to 1970 epoch.
@@ -173,18 +195,14 @@ function getCity(requestUrl) {
 
   function foreCast (cityData) {
 
-    var cityWeatherData = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + cityData.lat + '&lon=' + cityData.lon + '&units=imperial&appid=6dccc6347181beac7daedbd684110b84'
+    var cityWeatherData = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + cityData.lat + '&lon=' + cityData.lon + '&units=imperial&appid=09f8e0e7cdfcce674876b189b8f41b9c'
 
     fetch(cityWeatherData)
       .then(function (response) {
-        console.log(response);
 
         return response.json();
 
     }).then(function (data) {
-      console.log(data);
-
-
 
       //Forecasted Weather
 
@@ -192,6 +210,10 @@ function getCity(requestUrl) {
       var index = [5, 13, 21, 29, 37];
 
       for (var i = 0; i < index.length; i++) {
+
+        if (index === 5) {
+          return
+        } else {
 
       var forecastDetails = {
 
@@ -205,9 +227,6 @@ function getCity(requestUrl) {
 
       var icon = 'http://openweathermap.org/img/wn/' + forecastDetails.icon + '@2x.png'
       var forecastDate = new Date(forecastDetails.date * 1000).toLocaleDateString();
-
-      console.log(forecastDate);
-      console.log(forecastDetails);
 
       var divEl = document.createElement('div');
 
@@ -233,7 +252,7 @@ function getCity(requestUrl) {
       temp.textContent = "Temp: " + forecastDetails.temp + "F°"
       humidity.textContent = "Humidity: " + forecastDetails.humidity + "%";
 
-    }
+    }}
   })
   
 }
